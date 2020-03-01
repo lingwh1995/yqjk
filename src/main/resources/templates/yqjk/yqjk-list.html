@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>疫情监控</title>
+    <th:block th:include="include/header :: include-header-nocache"/>
+    <th:block th:include="include/header :: include-header-framework"/>
+    <script type="text/javascript" th:src="@{/yqjk/js/yqjk-list.js}"></script>
+</head>
+<body>
+    <input type="hidden" th:value="${userId}" id="userId"/>
+    <div class="yqjk">
+        <div class="container list mt-30">
+            <div class="form-inline condition tac mt-20">
+                <div class="form-group mr-20">
+                    <strong>姓名:&nbsp;</strong>
+                    <input type="text" class="form-control input-sm xm">
+                </div>
+                <div class="form-group mr-20">
+                    <strong>身份证号:&nbsp;</strong>
+                    <input type="text" class="form-control  input-sm sfzhm">
+                </div>
+                <div class="form-group mr-20">
+                    <strong>查询事由:&nbsp;</strong>
+                    <input type="text" class="form-control  input-sm cxsy">
+                </div>
+                <span class="btn btn-primary btn-sm search">查询</span>
+                <span class="btn btn-success btn-sm batch-download">批量查询</span>
+            </div>
+            <div class="qzhysbl">
+                <h4  class="ts">确诊和疑似病例</h4>
+                <table class="table table-hover tac table-border-base">
+                    <thead class="thead">
+                    <tr>
+                        <td>姓名</td>
+                        <td>身份证号码</td>
+                        <td>发病时间</td>
+                        <td>确诊时间</td>
+                        <td>病例类型</td>
+                    </tr>
+                    </thead>
+                    <tbody class="data">
+                        <tr>
+                            <td colspan="5" class="message">请输入查询条件并点击查询按钮......</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="knmqjcz">
+                <h4 class="ts">可能密切接触者</h4>
+                <table class="table table-hover tac table-border-base">
+                    <thead class="thead">
+                    <tr>
+                        <td>姓名</td>
+                        <td>身份证号码</td>
+                        <td>接触日期</td>
+                        <td>接触类型</td>
+                        <td>是否为可能密切接触者</td>
+                    </tr>
+                    </thead>
+                    <tbody class="data">
+                    <tr>
+                        <td colspan="5" class="message">请输入查询条件并点击查询按钮......</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

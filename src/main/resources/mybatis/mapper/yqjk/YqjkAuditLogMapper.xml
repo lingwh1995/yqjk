@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dragonsoft.yqjk.dao.yqjk.IYqjkAuditLogDao">
+    <insert id="auditLogGetYqDataFromBu" parameterType="HashMap">
+        <selectKey keyProperty="id" resultType="String" order="BEFORE">
+            SELECT REPLACE(SYS_GUID(),'-','') FROM DUAL
+        </selectKey>
+        INSERT INTO
+          T_YQJK_AUDIT_LOG
+          (
+              ID,
+              QQR_ID,
+              QQR_DWDM,
+              QQR_DWMC,
+              QQR_XM,
+              QQR_SFZHM,
+              CXSY,
+              BXCR_XM,
+              BCXR_SFZHM,
+              INTERFACE_TYPE,
+              RMI_STATUS,
+              RMI_RETURN,
+              OPERATE_TIME
+        )
+        VALUES
+          (
+              #{id},
+              #{auditLogParams.rmiParams.userId},
+              #{auditLogParams.rmiParams.qqdwdm},
+              #{auditLogParams.rmiParams.qqdwmc},
+              #{auditLogParams.rmiParams.qqr},
+              #{auditLogParams.rmiParams.qqrsfzhm},
+              #{auditLogParams.rmiParams.cxsy},
+              #{auditLogParams.rmiParams.xm},
+              #{auditLogParams.rmiParams.sfzhm},
+              #{auditLogParams.rmiParams.type},
+              #{auditLogParams.rmiStatusCode},
+              #{auditLogParams.rmiReturnValue},
+              TO_CHAR(SYSDATE,'YYYYMMDDHH24MISS')
+          )
+    </insert>
+</mapper>

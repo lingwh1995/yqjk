@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>批量查询结果下载</title>
+    <th:block th:include="include/header :: include-header-nocache"/>
+    <th:block th:include="include/header :: include-header-framework"/>
+    <script type="text/javascript" th:src="@{/yqjk/js/batch-download.js}"></script>
+</head>
+<body>
+<div class="yqjk">
+    <div class="container batch-download mt-30">
+        <div>
+            <h4 class="ts">导出批量查询结果</h4>
+        </div>
+        <div class="mt-20" style="background-color: #EBEBEB">
+            <form enctype="multipart/form-data" style="display: inline-block;" id="uploader-form">
+                <input type="file" name="file" id="file" class="cp">
+            </form>
+            <input class="btn btn-success btn-sm upload-excel" type="button" value="导入excel">
+            <span class="btn btn-success btn-sm fr download-pattern">下载模板</span>
+        </div>
+
+        <div class="mt-20">
+            <table class="table tac table-bordered batch-download">
+                <thead class="thead">
+                <tr>
+                    <td width="35%">批量查询源</td>
+                    <td width="25%">数据类型</td>
+                    <td width="25%">导出进度</td>
+                    <td>操作</td>
+                </tr>
+                </thead>
+                <tbody class="cp download-info">
+                <tr class="demo">
+                    <td rowspan="2" style="vertical-align: middle;font-weight: 700">此处显示导入的文件名称</td>
+                    <td>可能密切接触者</td>
+                    <td class="progress" style="background-color: #FFFFFF;">
+                        <div class="progress-bar" style="width: 50%;"></div>
+                    </td>
+                    <td>
+                        <span class="btn btn-success btn-xs export-btn">导出</span><br/>
+                    </td>
+                </tr>
+                <tr class="demo">
+                    <td>确诊和疑似病例</td>
+                    <td class="progress" style="background-color: #FFFFFF;">
+                        <div class="progress-bar" style="width: 50%;"></div>
+                    </td>
+                    <td>
+                        <span class="btn btn-success btn-xs export-btn">导出</span><br/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+</body>
+</html>

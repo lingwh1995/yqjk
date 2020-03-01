@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dragonsoft.yqjk.dao.yqjk.IYqjkDao">
+    <select id="findListByType" resultType="com.dragonsoft.yqjk.entity.YqjkRMIParam">
+        SELECT
+            T.ID AS id,
+            T.TOKEN_URL AS tokenUrl,
+            T.TOKEN_CONTENT_TYPE AS tokenContentType,
+            T.CLIENT_ID AS clientId,
+            T.CLIENT_SECRET AS clientSecret,
+            T.GRANT_TYPE AS grantType,
+            T.API_URL AS apiUrl,
+            T.API_CONTENT_TYPE AS apiContentType,
+            T.PROCESS_NUM AS processNum,
+            T.STEP_NUM AS stepNum,
+            T.RECEIVE_APP_ID AS receiveAppId,
+            T.INVOKING_APP_ID AS invokingAppId,
+            T.TYPE AS type
+        FROM
+            T_YQJK_PARAM T
+        WHERE T.TYPE = #{type}
+    </select>
+</mapper>

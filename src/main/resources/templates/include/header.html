@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+</head>
+<body>
+    <div th:fragment="include-header-framework">
+        <!--引入开源框架-->
+        <script type="text/javascript" th:src="@{/framework/jquery/jquery-2.2.2.min.js}"></script>
+        <link rel="stylesheet" th:href="@{/framework/bootstrap/bootstrap.min.css}"/>
+        <script type="text/javascript" th:src="@{/framework/layer/layer.js}"></script>
+        <!--引入项目公共的js和css-->
+        <link rel="stylesheet" th:href="@{/common/css/base.css}"/>
+        <script type="text/javascript" th:src="@{/common/js/base.js}"></script>
+    </div>
+
+    <!--禁止html缓存-->
+    <div th:fragment="include-header-nocache">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge">
+        <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
+        <meta http-equiv="Pragma" content="no-cache" />
+        <meta http-equiv="Expires" content="0" />
+    </div>
+</body>
+</html>

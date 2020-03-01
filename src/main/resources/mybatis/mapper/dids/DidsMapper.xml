@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.dragonsoft.yqjk.dao.dids.IDidsDao">
+    <select id="getUserInfo" resultType="HashMap">
+        SELECT
+            V.NAME AS XM,
+            V.DEPT_NAME AS DWMC,
+            V.DEPT_ID AS DWID,
+            V.IDCARD AS SFZH
+        FROM
+            VW_USER_MAN V
+        WHERE ID = #{userId}
+    </select>
+</mapper>

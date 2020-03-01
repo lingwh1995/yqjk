@@ -1,0 +1,44 @@
+.mr-20 {
+    margin-right: 20px;
+}
+.mt-20 {
+    margin-top: 20px;
+}
+.mt-30 {
+    margin-top: 30px;
+}
+.mt-10 {
+    margin-top: 5px;
+}
+.mt-50 {
+    margin-top: 100px;
+}
+.tac {
+    text-align: center;
+}
+.vam {
+    vertical-align: middle;
+}
+.cp {
+    cursor: pointer;
+}
+.ts {
+    border-bottom: 2px solid #6dbfff;
+    border-left: 4px solid #1094fa;
+    padding-left: 4px;
+    padding-bottom: 2px;
+    color: #9f9f9f;
+}
+.thead {
+    font-weight: 600;
+    background-color: #16447221;
+}
+.table-border-base {
+    border:1px solid #16447221;
+}
+.fl {
+    float:left;
+}
+.fr {
+    float:right;
+}

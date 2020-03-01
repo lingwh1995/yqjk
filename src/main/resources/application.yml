@@ -1,0 +1,114 @@
+server:
+  port: 8080
+  tomcat:
+      uri-encoding: UTF-8
+  servlet:
+    context-path: /yqjk
+spring:
+  profiles:
+    active: dev
+  mvc:
+    pathmatch:
+      use-suffix-pattern: false
+      use-registered-suffix-pattern: true
+    contentnegotiation:
+      favor-path-extension: false
+  thymeleaf:
+    cache: false
+    encoding: UTF-8
+    servlet:
+      content-type: text/html
+    prefix: classpath:/templates/
+    suffix: .html
+  output:
+    ansi:
+      enabled: always
+  logging:
+    config: classpath:logback-spring.xml
+  datasource:
+#   数据源基本配置
+    driver-class-name: oracle.jdbc.OracleDriver
+#   数据源其他配置
+#   使用type来配置要选用的数据源,这里切换为druid
+    type: com.alibaba.druid.pool.DruidDataSource
+    initialSize: 5
+    minIdle: 5
+    maxActive: 20
+    maxWait: 60000
+    timeBetweenEvictionRunsMillis: 60000
+    minEvictableIdleTimeMillis: 300000
+    validationQuery: SELECT 1 FROM DUAL
+    testWhileIdle: true
+    testOnBorrow: false
+    testOnReturn: false
+    poolPreparedStatements: true
+#   配置监控统计拦截的filters，去掉后监控界面sql无法统计，'wall'用于防火墙
+    filters: stat,wall,slf4j
+    useGlobalDataSourceStat: true
+    connectionProperties: druid.stat.mergeSql=true;druid.stat.slowSqlMillis=500
+http:
+  # 最大连接数
+  maxTotal: 200
+  # 单个路由最大连接数
+  defaultMaxPerRoute: 50
+  # 连接上服务器(握手成功)的时间，超出抛出connect timeout
+  connectTimeout: 5000
+  connectionRequestTimeout: 5000
+  # 服务器返回数据(response)的时间，超过抛出read timeout
+  socketTimeout: 3500
+  # 提交前检测是否可用
+  staleConnectionCheckEnabled: true
+  # 最大空闲时间
+  validateAfterInactivity: 5000
+debug: false
+
+mybatis:
+  mapper-locations: classpath:/mybatis/mapper/*.xml
+  config-location: classpath:/mybatis/mybatis-config.xml
+  type-aliases-package: com.dragonsoft.domain
+
+yqjk:
+  batchQueryTimeInterval: 3000
+  batchQueryRateRefreshTimeInterval: 50
+
+---
+spring:
+  profiles: produce
+  datasource:
+    yqjk:
+      username: jwzhcx
+      password: nxjzpt2015
+      url: jdbc:oracle:thin:@10.196.10.110:1521:orcl
+    dids:
+      username: dids
+      password: dragon123
+      url: jdbc:oracle:thin:@10.196.10.110:1521:db421
+  redis:
+    host: 10.196.10.110
+    port: 6379
+    password:
+    timeout: 8000
+server:
+  port: 8189
+  address:  10.196.10.112
+
+---
+spring:
+  profiles: dev
+  datasource:
+    yqjk:
+      username: jwzhcx
+      password: dragon
+      url: jdbc:oracle:thin:@192.168.10.6:1521:orcl
+    dids:
+      username: dids
+      password: dragon123
+      url: jdbc:oracle:thin:@192.168.10.6:1521:db142
+  redis:
+    host: localhost
+    port: 6379
+    password:
+    timeout: 8000
+server:
+  port: 8082
+  address: localhost
