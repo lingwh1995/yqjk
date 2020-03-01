@@ -84,7 +84,14 @@ $(function () {
                     /**
                      * 渲染可能密切接触进度条
                      */
+                    var isPermitExportKnmqjcz = true;
                     $(".knmqjcz a").on('click',function() {
+                        //防止用户多次点击
+                        if(!isPermitExportKnmqjcz) {
+                            return false;
+                        }
+                        isPermitExportKnmqjcz = false;
+                        $(".knmqjcz .progress-bar").css('width','0%');
                         var identifier = $(this).attr('identifier');
                         var getExportKnmqjczRate = setInterval($.proxy(function () {
                             $.ajax({
@@ -103,9 +110,9 @@ $(function () {
                                                 url:$.fn.contextPath + "/clear-rate-data.action?identifier="+identifier+'&type=0',
                                                 type:'get',
                                                 ssuccess : function(data) {
-
                                                 }
                                             });
+                                            isPermitExportKnmqjcz = true;
                                         }
                                     }
                                 }
@@ -115,9 +122,16 @@ $(function () {
                     /**
                      * 渲染确认和疑似病例进度条
                      */
+                    var isPermitExportQzhysbl = true;
                     $(".qzhysbl a").on('click',function() {
+                        //防止用户多次点击
+                        if(!isPermitExportQzhysbl){
+                            return false;
+                        }
+                        isPermitExportQzhysbl = false;
+                        $(".qzhysbl .progress-bar").css('width','0%');
+                        var identifier = $(this).attr('identifier');
                         var getExportQzhysblRate = setInterval($.proxy(function () {
-                            var identifier = $(this).attr('identifier');
                             $.ajax({
                                 url:$.fn.contextPath + "/export-excel-rate-qzhysbl.action?identifier="+identifier,
                                 async:false,
@@ -134,9 +148,9 @@ $(function () {
                                                 url:$.fn.contextPath + "/clear-rate-data.action?identifier="+identifier+'&type=1',
                                                 type:'get',
                                                 ssuccess : function(data) {
-
                                                 }
                                             });
+                                            isPermitExportQzhysbl = true;
                                         }
                                     }
                                 }

@@ -231,9 +231,6 @@ public class YqjkController {
             dataList.add(excelHeader);
             ValueOperations<String, Object> valueOperations = redisTemplate.opsForValue();
             List<Map<String, String>> conditions = (List<Map<String, String>>)valueOperations.get(identifier);
-            System.out.println("----------------------------------------------------------------------------------------------");
-            System.out.println("conditions:"+conditions);
-            System.out.println("----------------------------------------------------------------------------------------------");
             //导出进度的key
             String YQJK_EXPORT_RATE_KEY = YQJK_EXPORT_RATE_KEY_BASE + (identifier.split(":"))[2]+":"+
                     YqInterfaceTypeEnum.KNMQJCZ.getCode();
@@ -242,11 +239,16 @@ public class YqjkController {
                 yqjkQueryCondition.setXm(conditions.get(i).get("xm"));
                 yqjkQueryCondition.setSfzhm(conditions.get(i).get("sfzhm"));
                 yqjkQueryCondition.setCxsy(conditions.get(i).get("cxsy"));
-                System.out.println("this.getKnmqjczList(yqjkQueryCondition):"+this.getKnmqjczList(yqjkQueryCondition));
+                logger.info("----------------------------------------------------------------------------------------------");
+                logger.info("conditions:"+conditions);
+                logger.info("yqjkQueryCondition:"+yqjkQueryCondition);
+                logger.info("this.getKnmqjczList(yqjkQueryCondition):"+this.getKnmqjczList(yqjkQueryCondition));
                 JSONObject result = (JSONObject) JSON.parse(this.getKnmqjczList(yqjkQueryCondition));
+                logger.info("result:"+result);
                 String[] excelRow = new String[excelHeader.length];
                 if(result.get("code").equals(YqjkInterfaceReturnEnum.CXCG.getCode())){
                     JSONArray users = (JSONArray)result.get("data");
+                    logger.info("users:"+users.toJSONString());
                     if(users.size() >0) {
                         for (int j = 0; j < users.size(); j++) {
                             JSONObject user = (JSONObject) users.get(j);
@@ -266,8 +268,8 @@ public class YqjkController {
                 //设置批量下载间隔时间
                 Thread.sleep(batchQueryTimeInterval);
             }
-            System.out.println("dataList:"+dataList);
-            System.out.println("----------------------------------------------------------------------------------------------");
+            logger.info("dataList:"+dataList);
+            logger.info("----------------------------------------------------------------------------------------------");
             xlsExcelApi.exportDataToExcel(title,dataList,fileName,response);
             responseMessage = ResponseMessage.success("导出确认和疑似病例Excel成功！");
         }catch (Exception e) {
@@ -298,18 +300,20 @@ public class YqjkController {
             String YQJK_EXPORT_RATE_KEY = YQJK_EXPORT_RATE_KEY_BASE + (identifier.split(":"))[2]+":"+ YqInterfaceTypeEnum.QZHYSBL.getCode();
             String[] excelHeader = {"姓名","身份证号","查询事由","患者姓名","身份证号码","发病日期","确诊日期","病例类型"};
             dataList.add(excelHeader);
-            System.out.println("----------------------------------------------------------------------------------------------");
-            System.out.println("conditions:"+conditions);
-            System.out.println("----------------------------------------------------------------------------------------------");
             for(int i=0;i<conditions.size();i++){
                 YqjkQueryCondition yqjkQueryCondition = new YqjkQueryCondition();
                 yqjkQueryCondition.setXm(conditions.get(i).get("xm"));
                 yqjkQueryCondition.setSfzhm(conditions.get(i).get("sfzhm"));
                 yqjkQueryCondition.setCxsy(conditions.get(i).get("cxsy"));
-                System.out.println("this.getKnmqjczList(yqjkQueryCondition):"+this.getKnmqjczList(yqjkQueryCondition));
+                logger.info("----------------------------------------------------------------------------------------------");
+                logger.info("conditions:"+conditions);
+                logger.info("yqjkQueryCondition:"+yqjkQueryCondition);
+                logger.info("this.getQzhysblList(yqjkQueryCondition):"+this.getQzhysblList(yqjkQueryCondition));
                 JSONObject result = (JSONObject) JSON.parse(this.getQzhysblList(yqjkQueryCondition));
+                logger.info("result:"+result);
                 if(result.get("code").equals(YqjkInterfaceReturnEnum.CXCG.getCode())){
                     JSONObject user = (JSONObject)result.get("data");
+                    logger.info("user:"+user.toJSONString());
                     if(user.size() > 0) {
                         String[] excelBody = {
                                 yqjkQueryCondition.getXm(),
@@ -328,8 +332,8 @@ public class YqjkController {
                 //设置批量下载间隔时间
                 Thread.sleep(batchQueryTimeInterval);
             }
-            System.out.println("dataList:"+dataList);
-            System.out.println("----------------------------------------------------------------------------------------------");
+            logger.info("dataList:"+dataList);
+            logger.info("----------------------------------------------------------------------------------------------");
             xlsExcelApi.exportDataToExcel(title,dataList,fileName,response);
             responseMessage = ResponseMessage.success("导出确认和疑似病例Excel成功！");
         }catch (Exception e) {

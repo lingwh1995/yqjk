@@ -8,7 +8,7 @@ import java.util.Map;
 /**
  * 疫情监控参数配置
  */
-public interface IYqjkDao {
+public interface IYqjkParamDao {
 
     /**
      * 根据type获取数据

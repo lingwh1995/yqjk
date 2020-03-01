@@ -2,7 +2,7 @@ package com.dragonsoft.yqjk.service;
 
 import com.alibaba.fastjson.JSON;
 import com.dragonsoft.yqjk.dao.dids.IDidsDao;
-import com.dragonsoft.yqjk.dao.yqjk.IYqjkDao;
+import com.dragonsoft.yqjk.dao.yqjk.IYqjkParamDao;
 import com.dragonsoft.yqjk.entity.YqjkRMIParam;
 import com.dragonsoft.yqjk.entity.YqjkQueryCondition;
 import com.dragonsoft.yqjk.entity.YqjkToken;
@@ -34,7 +34,7 @@ import java.util.concurrent.TimeUnit;
 public class YqjkService implements IYqjkService {
 
     @Autowired
-    private IYqjkDao yqjkDao;
+    private IYqjkParamDao yqjkParamDao;
 
     @Autowired
     private IDidsDao didsDao;
@@ -54,7 +54,7 @@ public class YqjkService implements IYqjkService {
     public synchronized String getYqDataFromBu(YqjkQueryCondition yqjkQueryCondition) throws Exception {
         logger.info("--------------------------------------------------------");
         logger.info("前台传递过来的请求信息:"+yqjkQueryCondition);
-        YqjkRMIParam yqjkRMIParam = yqjkDao.findListByType(yqjkQueryCondition.getType());
+        YqjkRMIParam yqjkRMIParam = yqjkParamDao.findListByType(yqjkQueryCondition.getType());
         YqjkToken yqjkToken = getYqjkToken(yqjkRMIParam);
 //        YqjkToken yqjkToken = MockData.mockGetYqjkToken(yqjkRMIParam);
         String apikenUrl = yqjkRMIParam.getApiUrl();
@@ -85,23 +85,8 @@ public class YqjkService implements IYqjkService {
         logger.info("请求返回结果:"+responseEntity.getBody());
         logger.info("--------------------------------------------------------");
         return responseEntity.getBody();
-//        return this.getMockRMIEmpty(yqjkQueryCondition);
+//        return MockData.getMockRMIEmpty(yqjkQueryCondition);
     }
-    /**
-     * 模拟获取从远程接口中返回的数据:
-     *      0:可能密切接触者
-     *      1:确诊和疑似病例
-     * @param yqjkQueryCondition
-     * @return
-     */
-    public static String getMockRMIEmpty(YqjkQueryCondition yqjkQueryCondition){
-        if(yqjkQueryCondition.getType().equals(("1"))){
-            return "{\"data\":{},\"code\":\"200\",\"msg\":\"对不起没有查询到相关信息\",\"isContactPerson\":null}";
-        }else{
-            return "{\"data\":[],\"code\":\"200\",\"msg\":\"对不起没有查询到相关信息\",\"isContactPerson\":\"0\"}";
-        }
-    }
-
 
     @Override
     public Map<String, String> getUserInfo(String userId) {
