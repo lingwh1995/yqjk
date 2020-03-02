@@ -28,7 +28,6 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
-import java.text.SimpleDateFormat;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -87,7 +86,8 @@ public class YqjkController {
      * @return
      */
     @RequestMapping("/batch-download")
-    public String batchDownload(){
+    public String batchDownload(@RequestParam("userId") String userId,Model model){
+        model.addAttribute("userId", userId);
         return "yqjk/batch-download";
     }
 
@@ -220,8 +220,8 @@ public class YqjkController {
      */
     @ResponseBody
     @RequestMapping(value = "/export-excel-knmqjcz",method = RequestMethod.GET)
-    public ResponseMessage exportKnmqjczExcel(HttpServletResponse response, @RequestParam("identifier") String identifier){
-        ResponseMessage responseMessage = null;
+    public void exportKnmqjczExcel(HttpServletResponse response,
+                                              @RequestParam("identifier") String identifier,@RequestParam("userId") String userId){
         try {
             ExcelApi xlsExcelApi = new XlsExcelApi();
             String title = "SHEET-1";
@@ -236,20 +236,31 @@ public class YqjkController {
                     YqInterfaceTypeEnum.KNMQJCZ.getCode();
             for(int i=0;i<conditions.size(); i++){
                 YqjkQueryCondition yqjkQueryCondition = new YqjkQueryCondition();
+                //设置用户id
+                yqjkQueryCondition.setUserId(userId);
+                //拼接请求参数信息
                 yqjkQueryCondition.setXm(conditions.get(i).get("xm"));
                 yqjkQueryCondition.setSfzhm(conditions.get(i).get("sfzhm"));
                 yqjkQueryCondition.setCxsy(conditions.get(i).get("cxsy"));
+                //拼接用户信息
+                String userInfoKey = YQJK_USER_INFO_KEY_BASE + userId;
+                Map<String,String> userInfo = (Map<String,String>)valueOperations.get(userInfoKey);
+                yqjkQueryCondition.setQqdwdm(userInfo.get("DWID"));
+                yqjkQueryCondition.setQqdwmc(userInfo.get("DWMC"));
+                yqjkQueryCondition.setQqr(userInfo.get("XM"));
+                yqjkQueryCondition.setQqrsfzhm(userInfo.get("SFZH"));
+                //拼接类型
+                yqjkQueryCondition.setType(YqInterfaceTypeEnum.KNMQJCZ.getCode());
                 logger.info("----------------------------------------------------------------------------------------------");
                 logger.info("conditions:"+conditions);
                 logger.info("yqjkQueryCondition:"+yqjkQueryCondition);
-                logger.info("this.getKnmqjczList(yqjkQueryCondition):"+this.getKnmqjczList(yqjkQueryCondition));
                 JSONObject result = (JSONObject) JSON.parse(this.getKnmqjczList(yqjkQueryCondition));
+                logger.info("this.getKnmqjczList(yqjkQueryCondition):"+JSON.toJSONString(result));
                 logger.info("result:"+result);
                 String[] excelRow = new String[excelHeader.length];
                 if(result.get("code").equals(YqjkInterfaceReturnEnum.CXCG.getCode())){
                     JSONArray users = (JSONArray)result.get("data");
                     logger.info("users:"+users.toJSONString());
-                    valueOperations.set(YQJK_EXPORT_RATE_KEY,(i+1),1 *10,TimeUnit.MINUTES);
                     if(users.size() >0) {
                         for (int j = 0; j < users.size(); j++) {
                             JSONObject user = (JSONObject) users.get(j);
@@ -272,12 +283,9 @@ public class YqjkController {
             logger.info("dataList:"+dataList);
             logger.info("----------------------------------------------------------------------------------------------");
             xlsExcelApi.exportDataToExcel(title,dataList,fileName,response);
-            responseMessage = ResponseMessage.success("导出确认和疑似病例Excel成功！");
         }catch (Exception e) {
-            responseMessage = ResponseMessage.fail("导出可能密切接触者Excel失败！");
             e.printStackTrace();
         }
-        return responseMessage;
     }
 
     /**
@@ -288,8 +296,8 @@ public class YqjkController {
      */
     @ResponseBody
     @RequestMapping(value = "/export-excel-qzhysbl",method = RequestMethod.GET)
-    public ResponseMessage exportExcel(HttpServletResponse response, @RequestParam("identifier") String identifier){
-        ResponseMessage responseMessage = null;
+    public void exportExcel(HttpServletResponse response,
+                                       @RequestParam("identifier") String identifier,@RequestParam("userId") String userId){
         try{
             ExcelApi xlsExcelApi = new XlsExcelApi();
             String title = "SHEET-1";
@@ -303,14 +311,26 @@ public class YqjkController {
             dataList.add(excelHeader);
             for(int i=0;i<conditions.size();i++){
                 YqjkQueryCondition yqjkQueryCondition = new YqjkQueryCondition();
+                //设置用户id
+                yqjkQueryCondition.setUserId(userId);
+                //拼接请求参数信息
                 yqjkQueryCondition.setXm(conditions.get(i).get("xm"));
                 yqjkQueryCondition.setSfzhm(conditions.get(i).get("sfzhm"));
                 yqjkQueryCondition.setCxsy(conditions.get(i).get("cxsy"));
+                //拼接用户信息
+                String userInfoKey = YQJK_USER_INFO_KEY_BASE + userId;
+                Map<String,String> userInfo = (Map<String,String>)valueOperations.get(userInfoKey);
+                yqjkQueryCondition.setQqdwdm(userInfo.get("DWID"));
+                yqjkQueryCondition.setQqdwmc(userInfo.get("DWMC"));
+                yqjkQueryCondition.setQqr(userInfo.get("XM"));
+                yqjkQueryCondition.setQqrsfzhm(userInfo.get("SFZH"));
+                //拼接类型
+                yqjkQueryCondition.setType(YqInterfaceTypeEnum.QZHYSBL.getCode());
                 logger.info("----------------------------------------------------------------------------------------------");
                 logger.info("conditions:"+conditions);
                 logger.info("yqjkQueryCondition:"+yqjkQueryCondition);
-                logger.info("this.getQzhysblList(yqjkQueryCondition):"+this.getQzhysblList(yqjkQueryCondition));
                 JSONObject result = (JSONObject) JSON.parse(this.getQzhysblList(yqjkQueryCondition));
+                logger.info("this.getQzhysblList(yqjkQueryCondition):"+JSON.toJSONString(result));
                 logger.info("result:"+result);
                 if(result.get("code").equals(YqjkInterfaceReturnEnum.CXCG.getCode())){
                     JSONObject user = (JSONObject)result.get("data");
@@ -336,12 +356,9 @@ public class YqjkController {
             logger.info("dataList:"+dataList);
             logger.info("----------------------------------------------------------------------------------------------");
             xlsExcelApi.exportDataToExcel(title,dataList,fileName,response);
-            responseMessage = ResponseMessage.success("导出确认和疑似病例Excel成功！");
         }catch (Exception e) {
-            responseMessage = ResponseMessage.fail("导出确认和疑似病例Excel失败！");
             e.printStackTrace();
         }
-        return responseMessage;
     }
 
     /**

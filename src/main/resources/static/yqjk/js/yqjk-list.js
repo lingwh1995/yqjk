@@ -58,11 +58,13 @@ $(function () {
         /**
          * 调用可能密切接触者数据查询服务接口的Ajax对象
          */
-        var knmqjczAjax = $.ajax({type:'get',async:'true',data:_condition,url:$.fn.contextPath + '/knmqjcz-list.action?userId='+$("#userId").val()});
+        //拼接当前用户信息
+        _condition.userId = $("#userId").val();
+        var knmqjczAjax = $.ajax({type:'get',async:'true',data:_condition,url:$.fn.contextPath + '/knmqjcz-list.action'});
         /**
          * 调用确诊和疑似病例数据查询服务接口的Ajax对象
          */
-        var qzhysblAjax = $.ajax({type:'get',async:'true',data:_condition,url:$.fn.contextPath + '/qzhysbl-list.action?userId='+$("#userId").val()});
+        var qzhysblAjax = $.ajax({type:'get',async:'true',data:_condition,url:$.fn.contextPath + '/qzhysbl-list.action'});
         /**
          *  $.when()并发调用后端接口,调用成功后可以同时渲染前台数据,这样就不会出现
          *  先渲染一部分数据再渲染一部分数据的情况了

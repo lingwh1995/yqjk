@@ -68,8 +68,8 @@ mybatis:
   type-aliases-package: com.dragonsoft.domain
 
 yqjk:
-  batchQueryTimeInterval: 3000
-  batchQueryRateRefreshTimeInterval: 50
+  batchQueryTimeInterval: 2000
+  batchQueryRateRefreshTimeInterval: 1000
 
 ---
 spring:

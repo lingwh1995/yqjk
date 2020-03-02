@@ -184,7 +184,7 @@ $(function () {
             '     </td>\n' +
             '     <td>\n' +
             '         <a class="btn btn-success btn-xs" identifier="'+task.identifier+'"' +
-            '                href="'+ $.fn.contextPath+'/export-excel-knmqjcz.action?identifier='+task.identifier+'">导出</a><br/>\n' +
+            '                href="'+ $.fn.contextPath+'/export-excel-knmqjcz.action?identifier='+task.identifier+'&userId='+$('#userId').val()+'">导出</a><br/>\n' +
             '     </td>\n' +
             ' </tr>\n' +
             ' <tr class="qzhysbl">\n' +
@@ -194,7 +194,7 @@ $(function () {
             '     </td>\n' +
             '     <td>\n' +
             '          <a class="btn btn-success btn-xs" identifier="'+task.identifier+'"' +
-            '                href="'+ $.fn.contextPath +'/export-excel-qzhysbl.action?identifier='+task.identifier+'">导出</a><br/>\n' +
+            '                href="'+ $.fn.contextPath +'/export-excel-qzhysbl.action?identifier='+task.identifier+'&userId='+$('#userId').val()+'">导出</a><br/>\n' +
             '     </td>\n' +
             ' </tr>';
         $('.batch-download .download-info').append(html);
