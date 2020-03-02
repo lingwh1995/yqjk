@@ -8,11 +8,7 @@ import com.dragonsoft.yqjk.entity.YqjkQueryCondition;
 import com.dragonsoft.yqjk.enumresources.YqInterfaceTypeEnum;
 import com.dragonsoft.yqjk.enumresources.YqjkInterfaceReturnEnum;
 import com.dragonsoft.yqjk.service.IYqjkService;
-import com.dragonsoft.yqjk.service.YqjkService;
-import com.dragonsoft.yqjk.utils.CommonUtils;
-import com.dragonsoft.yqjk.utils.ExcelApi;
-import com.dragonsoft.yqjk.utils.ExcelOperator;
-import com.dragonsoft.yqjk.utils.XlsExcelApi;
+import com.dragonsoft.yqjk.utils.*;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -25,6 +21,7 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -115,7 +112,7 @@ public class YqjkController {
             message.put("code",ResponseMessage.SESSION_TIMEOUT_CODE);
             responseMessage = message.toJSONString();
         }
-//        responseMessage = this.mockKnmqjczList();
+//        responseMessage = MockData.mockKnmqjczList();
         return responseMessage;
     }
 
@@ -144,7 +141,7 @@ public class YqjkController {
             message.put("code",ResponseMessage.SESSION_TIMEOUT_CODE);
             responseMessage = message.toJSONString();
         }
-//        responseMessage = this.mockQzhysblList();
+//        responseMessage = MockData.mockQzhysblList();
         return responseMessage;
     }
 
@@ -257,11 +254,11 @@ public class YqjkController {
                 JSONObject result = (JSONObject) JSON.parse(this.getKnmqjczList(yqjkQueryCondition));
                 logger.info("this.getKnmqjczList(yqjkQueryCondition):"+JSON.toJSONString(result));
                 logger.info("result:"+result);
-                String[] excelRow = new String[excelHeader.length];
                 if(result.get("code").equals(YqjkInterfaceReturnEnum.CXCG.getCode())){
                     JSONArray users = (JSONArray)result.get("data");
                     logger.info("users:"+users.toJSONString());
                     if(users.size() >0) {
+                        String[] excelRow = new String[excelHeader.length];
                         for (int j = 0; j < users.size(); j++) {
                             JSONObject user = (JSONObject) users.get(j);
                             excelRow[0] = yqjkQueryCondition.getXm();
@@ -273,8 +270,11 @@ public class YqjkController {
                             excelRow[6] = String.valueOf(user.get("jclx")).equals("null") ? "" : String.valueOf(user.get("jclx")).trim();
                             excelRow[7] = result.get("isContactPerson").equals("1") ? "是" : "否";
                         }
+                        dataList.add(excelRow);
+                    }else{
+                        String[] emptyExcelBody = {"无匹配结果","-","-","-","-","-","-","-"};
+                        dataList.add(emptyExcelBody);
                     }
-                    dataList.add(excelRow);
                 }
                 valueOperations.set(YQJK_EXPORT_RATE_KEY,(i+1),1 *10,TimeUnit.MINUTES);
                 //设置批量下载间隔时间
@@ -347,6 +347,9 @@ public class YqjkController {
                                 String.valueOf(user.get("bllx")).equals("null") ? "" : String.valueOf(user.get("bllx")).trim(),
                         };
                         dataList.add(excelBody);
+                    }else{
+                        String[] emptyExcelBody = {"无匹配结果","-","-","-","-","-","-","-"};
+                        dataList.add(emptyExcelBody);
                     }
                 }
                 valueOperations.set(YQJK_EXPORT_RATE_KEY,(i+1),1 *10,TimeUnit.MINUTES);
@@ -357,7 +360,7 @@ public class YqjkController {
             logger.info("----------------------------------------------------------------------------------------------");
             xlsExcelApi.exportDataToExcel(title,dataList,fileName,response);
         }catch (Exception e) {
-            e.printStackTrace();
+           e.printStackTrace();
         }
     }
 

@@ -51,7 +51,7 @@ public class MockData {
         return "{\n" +
                 "    \"code\": \"200\",\n" +
                 "\"msg\": \"查询成功\",\n" +
-                "\"iscontactperson\": \"是否为可能密切接触者\",\n" +
+                "\"isContactPerson\": \"是否为可能密切接触者\",\n" +
                 "\"data\":[\n" +
                 "{\n" +
                 "\t\"xm\": \"姓名\",\n" +

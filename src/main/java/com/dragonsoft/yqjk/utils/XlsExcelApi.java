@@ -3,6 +3,7 @@ package com.dragonsoft.yqjk.utils;
 import org.apache.poi.hssf.usermodel.*;
 import org.springframework.web.multipart.MultipartFile;
 
+import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -128,7 +129,18 @@ public class XlsExcelApi implements ExcelApi {
             out = response.getOutputStream();
             wb.write(out);
         } catch (Exception e) {
-            e.printStackTrace();
+            String info="导出数据出错，原因未知";
+            ServletOutputStream os = null;
+            try {
+                os = response.getOutputStream();
+                response.setHeader("Content-type", "text/html;charset=UTF-8");
+                os.write(("<script>").getBytes("UTF-8"));
+                os.write(("alert('"+info+"');").getBytes("UTF-8"));
+                os.write(("</script>").getBytes("UTF-8"));
+                os.close();
+            } catch (IOException e1) {
+                e1.printStackTrace();
+            }
         }finally {
             try {
                 out.flush();
