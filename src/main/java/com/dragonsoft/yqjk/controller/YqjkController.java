@@ -249,6 +249,7 @@ public class YqjkController {
                 if(result.get("code").equals(YqjkInterfaceReturnEnum.CXCG.getCode())){
                     JSONArray users = (JSONArray)result.get("data");
                     logger.info("users:"+users.toJSONString());
+                    valueOperations.set(YQJK_EXPORT_RATE_KEY,(i+1),1 *10,TimeUnit.MINUTES);
                     if(users.size() >0) {
                         for (int j = 0; j < users.size(); j++) {
                             JSONObject user = (JSONObject) users.get(j);

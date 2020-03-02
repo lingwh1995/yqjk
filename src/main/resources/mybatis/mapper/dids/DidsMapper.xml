@@ -11,6 +11,6 @@
             V.IDCARD AS SFZH
         FROM
             VW_USER_MAN V
-        WHERE ID = #{userId}
+        WHERE V.ID = #{userId}
     </select>
 </mapper>

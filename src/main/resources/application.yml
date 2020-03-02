@@ -80,9 +80,9 @@ spring:
       password: nxjzpt2015
       url: jdbc:oracle:thin:@10.196.10.110:1521:orcl
     dids:
-      username: dids
-      password: dragon123
-      url: jdbc:oracle:thin:@10.196.10.110:1521:db421
+      username: dids2
+      password: nxjzpt2015
+      url: jdbc:oracle:thin:@10.196.10.110:1521:orcl
   redis:
     host: 10.196.10.110
     port: 6379
