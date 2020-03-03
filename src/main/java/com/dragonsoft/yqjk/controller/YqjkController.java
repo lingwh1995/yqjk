@@ -9,7 +9,7 @@ import com.dragonsoft.yqjk.enumresources.YqInterfaceTypeEnum;
 import com.dragonsoft.yqjk.enumresources.YqjkInterfaceReturnEnum;
 import com.dragonsoft.yqjk.service.IYqjkService;
 import com.dragonsoft.yqjk.utils.*;
-import org.apache.commons.lang3.StringUtils;
+import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
