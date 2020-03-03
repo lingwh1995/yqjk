@@ -21,7 +21,6 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
-import javax.servlet.ServletOutputStream;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -253,7 +252,6 @@ public class YqjkController {
                 logger.info("yqjkQueryCondition:"+yqjkQueryCondition);
                 JSONObject result = (JSONObject) JSON.parse(this.getKnmqjczList(yqjkQueryCondition));
                 logger.info("this.getKnmqjczList(yqjkQueryCondition):"+JSON.toJSONString(result));
-                logger.info("result:"+result);
                 if(result.get("code").equals(YqjkInterfaceReturnEnum.CXCG.getCode())){
                     JSONArray users = (JSONArray)result.get("data");
                     logger.info("users:"+users.toJSONString());
@@ -271,16 +269,16 @@ public class YqjkController {
                             excelRow[7] = result.get("isContactPerson").equals("1") ? "是" : "否";
                         }
                         dataList.add(excelRow);
-                    }else{
-                        String[] emptyExcelBody = {"无匹配结果","-","-","-","-","-","-","-"};
-                        dataList.add(emptyExcelBody);
                     }
+                }
+                if(dataList.size() == 1) {
+                    String[] emptyExcelBody = {"无匹配结果", "---", "---", "---", "---", "---", "---", "---"};
+                    dataList.add(emptyExcelBody);
                 }
                 valueOperations.set(YQJK_EXPORT_RATE_KEY,(i+1),1 *10,TimeUnit.MINUTES);
                 //设置批量下载间隔时间
                 Thread.sleep(batchQueryTimeInterval);
             }
-            logger.info("dataList:"+dataList);
             logger.info("----------------------------------------------------------------------------------------------");
             xlsExcelApi.exportDataToExcel(title,dataList,fileName,response);
         }catch (Exception e) {
@@ -331,7 +329,6 @@ public class YqjkController {
                 logger.info("yqjkQueryCondition:"+yqjkQueryCondition);
                 JSONObject result = (JSONObject) JSON.parse(this.getQzhysblList(yqjkQueryCondition));
                 logger.info("this.getQzhysblList(yqjkQueryCondition):"+JSON.toJSONString(result));
-                logger.info("result:"+result);
                 if(result.get("code").equals(YqjkInterfaceReturnEnum.CXCG.getCode())){
                     JSONObject user = (JSONObject)result.get("data");
                     logger.info("user:"+user.toJSONString());
@@ -347,16 +344,16 @@ public class YqjkController {
                                 String.valueOf(user.get("bllx")).equals("null") ? "" : String.valueOf(user.get("bllx")).trim(),
                         };
                         dataList.add(excelBody);
-                    }else{
-                        String[] emptyExcelBody = {"无匹配结果","-","-","-","-","-","-","-"};
-                        dataList.add(emptyExcelBody);
                     }
+                }
+                if(dataList.size() == 1){
+                    String[] emptyExcelBody = {"无匹配结果","---","---","---","---","---","---","---"};
+                    dataList.add(emptyExcelBody);
                 }
                 valueOperations.set(YQJK_EXPORT_RATE_KEY,(i+1),1 *10,TimeUnit.MINUTES);
                 //设置批量下载间隔时间
                 Thread.sleep(batchQueryTimeInterval);
             }
-            logger.info("dataList:"+dataList);
             logger.info("----------------------------------------------------------------------------------------------");
             xlsExcelApi.exportDataToExcel(title,dataList,fileName,response);
         }catch (Exception e) {

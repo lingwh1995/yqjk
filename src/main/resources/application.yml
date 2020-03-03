@@ -6,7 +6,7 @@ server:
     context-path: /yqjk
 spring:
   profiles:
-    active: dev
+    active: produce
   mvc:
     pathmatch:
       use-suffix-pattern: false
